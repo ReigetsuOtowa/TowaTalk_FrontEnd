@@ -58,30 +58,37 @@ export default {
 </script>
 
 <style>
+/* 修改聊天界面布局样式 */
 .chat {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    height: 520px; /* 与根容器高度一致 */
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    grid-area: 2 / 3 / 3 / 4; /* 指定在grid中的位置 */
 }
 
+/* 调整头部样式 */
 .chat-header {
     padding: 15px;
     background: var(--theme-color);
     color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
 }
 
+.chat-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* 调整消息区域样式 */
 .messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 40px; /* 增加左右内边距 */
-  background: #f5f5f5;
-}
-
-.message {
-  max-width: 80%; /* 增加消息气泡的最大宽度 */
-  margin-bottom: 15px;
-  padding: 15px; /* 增加内边距 */
-  border-radius: 8px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 40px;
+    background: #f5f5f5;
+    height: calc(100% - 120px); /* 减去头部和输入框的高度 */
 }
 
 .message.received {
@@ -101,12 +108,16 @@ export default {
     opacity: 0.7;
 }
 
+/* 调整输入框区域样式 */
 .chat-input {
     padding: 15px;
     background: white;
     display: flex;
     gap: 10px;
+    height: 60px;
+    border-top: 1px solid #eee;
 }
+
 
 .chat-input input {
     flex: 1;
