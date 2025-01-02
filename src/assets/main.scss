@@ -1,0 +1,54 @@
+/**
+ * 主样式表文件
+ * 包含全局基础样式设置和响应式布局规则
+ * 依赖于base.css中的CSS变量定义
+ */
+
+// 导入Vue自带的base.css,包含基础样式和CSS变量
+@import './base.css';
+
+// 应用程序根容器样式
+#app {
+    // 使用CSS变量控制视图尺寸
+    width: var(--view-width);
+    height: var(--view-height);
+    margin: 0 auto;
+    font-weight: normal;
+}
+
+// 链接和.green类通用样式
+// 用于设置交互元素的视觉效果
+a,
+.green {
+    text-decoration: none;
+    color: hsla(160, 100%, 37%, 1); // 使用HSL颜色以提供更好的可读性
+    transition: 0.4s; // 添加过渡动画效果
+    padding: 3px;
+}
+
+// 页面背景样式设置
+body {
+    background-image: url($background); // 使用变量定义的背景图片
+    backdrop-filter: blur(5px) brightness(60%); // 背景模糊和亮度调整
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; // 防止页面滚动
+}
+
+// 禁用图片拖拽功能，提升用户体验
+img {
+    -webkit-user-drag: none;
+}
+
+// 响应式布局设置
+// 在屏幕宽度小于1150px时启用移动端布局
+@media screen and (max-width: 1150px) {
+    #app {
+        width: 100vw; // 移动端下占满屏幕宽度
+    }
+    body {
+        display: block; // 取消flex布局，改用普通流式布局
+    }
+}
