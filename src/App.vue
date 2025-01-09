@@ -414,9 +414,18 @@ const addFriend = async (targetUserId: string) => {
 // 处理好友请求
 const handleFriendRequest = async (requestId: string, isAccept: boolean) => {
     try {
+        // 如果是拒绝好友请求，直接在本地处理
+        if (!isAccept) {
+            // 从本地好友请求列表中移除该请求
+            friendRequests.value = friendRequests.value.filter(request => request.id !== requestId);
+            ElMessage.success('拒绝添加好友成功');
+            return;
+        }
+
+        // 如果是接受好友请求，则发送请求到服务器
         const params = new URLSearchParams();
         params.append('addFriendId', requestId);
-        params.append('isReceive', isAccept ? '1' : '2');
+        params.append('isReceive', '1');
 
         const response = await axios.post('http://127.0.0.1:24025/friend/add/list/handle',
             params
@@ -430,7 +439,6 @@ const handleFriendRequest = async (requestId: string, isAccept: boolean) => {
         ElMessage.error('处理好友请求失败');
     }
 };
-
 
 // 监听面板切换，加载相应数据
 watch(panelState, (newState) => {
