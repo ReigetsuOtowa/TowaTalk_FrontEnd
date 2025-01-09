@@ -179,7 +179,7 @@ const logoutDialogVisible = ref(false);
 
 // WebSocket变量
 const ws = ref<WebSocket | null>(null);
-const baseUrl = 'ws://127.0.0.1:8578';
+const baseUrl = 'ws://127.0.0.1:24025';
 
 // 面板状态：0-好友列表 1-陌生人 2-好友请求
 const panelState = ref(0)
@@ -258,7 +258,7 @@ onMounted(() => {
 // 处理登录
 const handleLogin = async () => {
     try {
-        const response = await axios.post('http://127.0.0.1:8578/user/login', loginForm.value);
+        const response = await axios.post('http://127.0.0.1:24025/user/login', loginForm.value);
         if (response.data.message === "登录成功") {
             const userInfo = response.data.data;
             localStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -285,7 +285,7 @@ const handleRegister = async () => {
     }
 
     try {
-        const response = await axios.post('http://127.0.0.1:8578/user/register', {
+        const response = await axios.post('http://127.0.0.1:24025/user/register', {
             userName: registerForm.value.userName,
             password: registerForm.value.password,
             sex: registerForm.value.sex
@@ -352,7 +352,7 @@ const loadFriends = async () => {
         if (!userInfo) return;
 
         const userId = JSON.parse(userInfo).id;
-        const response = await axios.get(`http://127.0.0.1:8578/friend/list/${userId}`);
+        const response = await axios.get(`http://127.0.0.1:24025/friend/list/${userId}`);
         friends.value = response.data.data;
     } catch (error) {
         console.error('加载好友列表失败:', error);
@@ -367,7 +367,7 @@ const loadStrangers = async () => {
         if (!userInfo) return;
 
         const userId = JSON.parse(userInfo).id;
-        const response = await axios.get(`http://127.0.0.1:8578/friend/list/un/${userId}`);
+        const response = await axios.get(`http://127.0.0.1:24025/friend/list/un/${userId}`);
         strangers.value = response.data.data;
     } catch (error) {
         console.error('加载陌生人列表失败:', error);
@@ -382,7 +382,7 @@ const loadFriendRequests = async () => {
         if (!userInfo) return;
 
         const userId = JSON.parse(userInfo).id;
-        const response = await axios.get(`http://127.0.0.1:8578/friend/add/list/${userId}`);
+        const response = await axios.get(`http://127.0.0.1:24025/friend/add/list/${userId}`);
         friendRequests.value = response.data.data;
     } catch (error) {
         console.error('加载好友请求失败:', error);
@@ -397,7 +397,7 @@ const addFriend = async (targetUserId: string) => {
         if (!userInfo) return;
 
         const userId = JSON.parse(userInfo).id;
-        const response = await axios.post('http://127.0.0.1:8578/friend/add', {
+        const response = await axios.post('http://127.0.0.1:24025/friend/add', {
             sendUserId: userId,
             receiveUserId: targetUserId,
             message: '请求添加好友'
@@ -418,7 +418,7 @@ const handleFriendRequest = async (requestId: string, isAccept: boolean) => {
         params.append('addFriendId', requestId);
         params.append('isReceive', isAccept ? '1' : '2');
 
-        const response = await axios.post('http://127.0.0.1:8578/friend/add/list/handle',
+        const response = await axios.post('http://127.0.0.1:24025/friend/add/list/handle',
             params
         );
 
@@ -482,7 +482,7 @@ const loadChatHistory = async (friendId: string) => {
         if (!userInfo) return;
 
         const userId = JSON.parse(userInfo).id;
-        const response = await axios.get(`http://127.0.0.1:8578/message/list`, {
+        const response = await axios.get(`http://127.0.0.1:24025/message/list`, {
             params: {
                 sid: userId,
                 rid: friendId
